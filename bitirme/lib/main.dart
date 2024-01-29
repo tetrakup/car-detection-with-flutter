@@ -59,15 +59,39 @@ class _CameraAppState extends State<CameraApp> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Camera App'),
+          title: const Text('Araba Markaları'),
         ),
         body: Center(
-          child: ElevatedButton(
-            onPressed: () async {
-              // Tara ve fotoğraf çek işlevi
-              xrayScan(context, controller);
-            },
-            child: const Text('Sayfada Tara ve Fotoğraf Çek'),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              ElevatedButton(
+                onPressed: () async {
+                  // Tara ve fotoğraf çek işlevi
+                  xrayScan(context, controller);
+                },
+                child: const Text('Sayfada Tara ve Fotoğraf Çek'),
+              ),
+              SizedBox(height: 20),
+              Expanded(
+                child: GridView.count(
+                  crossAxisCount: 2,
+                  children: List.generate(
+                    carBrands.length,
+                    (index) {
+                      return Card(
+                        child: Column(
+                          children: <Widget>[
+                            Image.asset(carBrands[index]['image']),
+                            Text(carBrands[index]['name']),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),
@@ -112,3 +136,12 @@ void takePicture(BuildContext context, CameraController controller) async {
     print('Error: $e');
   }
 }
+
+List<Map<String, dynamic>> carBrands = [
+  {'name': 'BMW', 'image': 'assets/bmw.jpg'},
+  {'name': 'Mercedes', 'image': 'assets/mercedes.jpg'},
+  {'name': 'Audi', 'image': 'assets/audi.jpg'},
+  {'name': 'Toyota', 'image': 'assets/toyota.jpg'},
+  {'name': 'Honda', 'image': 'assets/honda.jpg'},
+  {'name': 'Ford', 'image': 'assets/ford.jpg'},
+];
